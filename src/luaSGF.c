@@ -47,9 +47,9 @@ static int luaSGF_calc(lua_State *L) {
     return 2;
   }
   uint8_t polynomialOrder = (uint8_t)luaL_checkinteger(L,2);
-  if (polynomialOrder < 0 || polynomialOrder > 4) {
+  if (polynomialOrder < 0) {
     lua_pushnil(L);	// no result
-    lua_pushstring(L,"Polynomial order must be between 0 and 4.");
+    lua_pushstring(L,"Polynomial order must be a positive integer.");
     return 2;
   }
   if (polynomialOrder >= (2 * halfWindowSize + 1)) {
@@ -64,9 +64,9 @@ static int luaSGF_calc(lua_State *L) {
     return 2;
   }
   uint8_t derivativeOrder = (uint8_t)luaL_checkinteger(L,4);
-  if (derivativeOrder < 0 || derivativeOrder > 4) {
+  if (derivativeOrder < 0) {
     lua_pushnil(L);	// no result
-    lua_pushstring(L,"Derivative order must be between 0 and 4.");
+    lua_pushstring(L,"Derivative order must be a positive integer.");
     return 2;
   }
   if (lua_istable(L,5) == 0) {
