@@ -106,6 +106,23 @@ target_sources(luaSGF PRIVATE src/luaSGF.c)
 install(TARGETS luaSGF RUNTIME DESTINATION ${INSTALL_TOP_CDIR})
 
 # ------------------------------------------------------------------------------
+# Create docs with ldoc from CMAKE_INSTALL_PREFIX
+set(LDOC_EXE "${CMAKE_INSTALL_PREFIX}/bin/ldoc.exe")
+set(DOC_INST_DIR "${CMAKE_CURRENT_BINARY_DIR}/gen-docs")
+add_custom_target(docs
+  COMMENT "Generate documentation ..."
+  WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+  COMMAND ${LDOC_EXE} . -d "${DOC_INST_DIR}"
+)
+add_dependencies(luaSGF docs)
+
+# ------------------------------------------------------------------------------
 # Install docs
-install(DIRECTORY doc/ DESTINATION ${INSTALL_DOCDIR})	# "/" omits leading dir
-# install(FILES test/test-luaSGF.lua DESTINATION ${INSTALL_DOCDIR})
+install(DIRECTORY
+  ${DOC_INST_DIR}/
+  spec
+  DESTINATION ${INSTALL_DOCDIR}
+  FILES_MATCHING
+  PATTERN "*"
+  PATTERN "*~" EXCLUDE
+)
