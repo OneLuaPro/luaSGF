@@ -38,6 +38,11 @@ typedef struct {
     float phaseAngle;
 } MqsRawDataPoint_t;
 
+// Legacy function declaration to fix -Wimplicit-function-declaration
+int mes_savgolFilter(MqsRawDataPoint_t data[], size_t dataSize, uint8_t halfWindowSize,
+                     MqsRawDataPoint_t filteredData[], uint8_t polynomialOrder,
+                     uint8_t targetPoint, uint8_t derivativeOrder);
+
 /**
  * Savitzky-Golay Filter Module for Lua.
  * @module luaSGF

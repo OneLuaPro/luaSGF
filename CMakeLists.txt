@@ -92,16 +92,19 @@ message(STATUS "C compiler flags: ${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_${CMAKE_BUILD
 add_library(luaSGF SHARED)
 # setup lua include directory
 target_include_directories(luaSGF PRIVATE ${LIBLUA_INCLUDEDIR})
+# plattform-independend sources
+target_sources(luaSGF PRIVATE src/luaSGF.c)
 # setup platform-specific sources, compile and linker options
 if(WIN32 AND NOT MinGW)
-  add_definitions(-DLUA_BUILD_AS_DLL -DLUA_LIB -DFLOAT_DOUBLE)
-  target_compile_options(luaSGF PRIVATE /D_WINDLL /D_WIN32 /D_CRT_SECURE_NO_WARNINGS)
-  target_link_options(luaSGF PRIVATE /LIBPATH:${LIBLUA_LIBDIR} liblua.lib savgolFilter.lib)
+  target_compile_definitions(luaSGF PRIVATE
+    LUA_BUILD_AS_DLL LUA_LIB
+    _WINDLL _WIN32 _CRT_SECURE_NO_WARNINGS
+  )
+  target_link_directories(luaSGF PRIVATE ${LIBLUA_LIBDIR})
+  target_link_libraries(luaSGF PRIVATE liblua.lib savgolFilter.lib)
 else()
   message(FATAL_ERROR "Not yet fully implemented.")
 endif()
-# plattform-independend sources
-target_sources(luaSGF PRIVATE src/luaSGF.c)
 # Install
 install(TARGETS luaSGF RUNTIME DESTINATION ${INSTALL_TOP_CDIR})
 
