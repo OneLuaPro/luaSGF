@@ -30,7 +30,7 @@ SOFTWARE.
 #include <stdint.h>
 #include <savgolFilter.h>
 
-#define LUASGF_VERSION "luaSGF 2.0"
+#define LUASGF_VERSION "luaSGF 2.0.1"
 #define LUASGF_METATABLE "luaSGF.Filter"
 
 // Savitzky-Golay Filter legacy API support
